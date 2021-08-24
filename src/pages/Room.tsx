@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
 import { FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import logoImg from '../assets/images/logo.svg';
 import { Button } from '../components/Button';
+import { Question } from '../components/Question';
 import { RoomCode } from '../components/RoomCode';
 import { useAuth } from '../hooks/useAuth';
+import { useRoom } from '../hooks/useRoom';
 import { database } from '../services/firebase';
 
 import '../styles/room.scss';
@@ -13,56 +14,12 @@ type RoomParams = {
   id: string;
 }
 
-type FirebaseQuestions = Record<string, {
-  author: {
-    name: string;
-    avatar: string;
-  };
-  content: string;
-  isHighlighted: string;
-  isAnswered: string;
-}>
-
-type Questions = {
-  id: string;
-  author: {
-    name: string;
-    avatar: string;
-  };
-  content: string;
-  isHighlighted: string;
-  isAnswered: string;
-}
-
 export function Room() {
   const params = useParams<RoomParams>();
   const roomId = params.id;
   const { user } = useAuth();
   const [newQuestion, setNewQuestion] = useState('');
-  const [questions, setQuestions] = useState<Questions[]>([]);
-  const [title, setTitle] = useState();
-
-  useEffect(() => {
-    const roomRef = database.ref(`rooms/${roomId}`);
-
-    // Usando .on() ele 'escuta' o tempo todo, com .once() apenas 1 vez 
-    roomRef.on('value', room => {
-      const dbRoom = room.val();
-      const firebaseQuestions: FirebaseQuestions = dbRoom.questions ?? {};
-      const parsedQuestion = Object.entries(firebaseQuestions).map(([key, value]) => {
-        return {
-          id: key,
-          content: value.content,
-          author: value.author,
-          isHighlighted: value.isHighlighted,
-          isAnswered: value.isAnswered,
-        }
-      });
-
-      setTitle(dbRoom.title);
-      setQuestions(parsedQuestion);
-    });
-  }, [roomId]);
+  const { questions, title } = useRoom(roomId);
 
   async function handleCreateNewQuestion(event: FormEvent) {
     event.preventDefault();
@@ -128,7 +85,17 @@ export function Room() {
           </div>
         </form>
 
-        {JSON.stringify(questions)}
+        <div className="question-list">
+          {questions.map(question => {
+            return (
+              <Question
+                key={question.id}
+                content={question.content}
+                author={question.author}
+              />
+            )
+          })}
+        </div>
       </main>
     </div>
   );
