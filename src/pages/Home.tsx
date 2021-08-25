@@ -43,6 +43,11 @@ export function Home() {
       return;
     }
 
+    if(roomRef.val().closedAt) {
+      alert('Sala encerrada');
+      return;
+    }
+
     // Se existir dar push no endpoint
     history.push(`rooms/${roomCode}`);
   }
