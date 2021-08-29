@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="move.it" title="move.it" src=".readme/letmeask.png" />
+  <img alt="move.it" title="move.it" src=".readme/letmeask.svg" />
 </h1>
 
 <p align="center">
@@ -17,10 +17,10 @@
 </p>
 
 <p align="center">
-  <img alt="Tela do app" src=".readme/letmeask.png" width="100%">
+  <img alt="Tela do app" src=".readme/app_screen.png" width="100%">
 </p>
 
-# Tecnologias
+## :technologist: Tecnologias
 
 Este projeto faz uso das seguintes tecnologias:
 - [React](https://reactjs.org)
