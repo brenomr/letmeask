@@ -41,6 +41,8 @@ O layout será disponivilizado futuramente.
 
 - Clone o repositório
 - Instale as dependências com `yarn install`
+- Renomeie o arquivo .env.example que está na raiz do projeto para .env.local
+- Preencha as variáveis de ambiente em .env.local com suas informações
 - Inicie o servidor com `yarn start`
 
 O servidor deverá iniciar no endereço: [http://localhost:3000](http://localhost:3000)
